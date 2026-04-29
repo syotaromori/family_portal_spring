@@ -25,4 +25,26 @@ public class GoalController {
     public Goal create(@RequestBody Goal goal) {
         return repo.save(goal);
     }
+
+    @GetMapping("/{id}")
+    public Goal getById(@PathVariable Long id) {
+        return repo.findById(id).orElseThrow();
+    }
+
+    @PutMapping("/{id}")
+    public Goal update(@PathVariable Long id, @RequestBody Goal updated) {
+        Goal goal = repo.findById(id).orElseThrow();
+
+        goal.setChild(updated.getChild());
+        goal.setTargetAmount(updated.getTargetAmount());
+        goal.setCurrentAmount(updated.getCurrentAmount());
+
+        return repo.save(goal);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        repo.deleteById(id);
+    }
+
 }

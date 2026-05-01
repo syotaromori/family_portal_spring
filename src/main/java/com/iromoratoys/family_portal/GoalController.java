@@ -16,8 +16,13 @@ public class GoalController {
 
     // 一覧取得
     @GetMapping
-    public List<Goal> getAll() {
-        return repo.findAll();
+    public List<Goal> getAll(@RequestParam String child) {
+        // 親用
+        if ("ALL".equals(child)) {
+            return repo.findAll();
+        }
+        // 子供用
+        return repo.findByChild(child);
     }
 
     // 登録

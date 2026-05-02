@@ -1,5 +1,6 @@
 package com.iromoratoys.family_portal;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -8,48 +9,38 @@ import java.util.List;
 @CrossOrigin
 public class GoalController {
 
-    private final GoalRepository repo;
+    private final GoalService service;
 
-    public GoalController(GoalRepository repo) {
-        this.repo = repo;
+    public GoalController(GoalService service) {
+        this.service = service;
     }
 
-    // 一覧取得
+    // 一覧
     @GetMapping
     public List<Goal> getAll(@RequestParam String child) {
-        // 親用
-        if ("ALL".equals(child)) {
-            return repo.findAll();
-        }
-        // 子供用
-        return repo.findByChild(child);
+        return service.findAll(child);
     }
 
     // 登録
     @PostMapping
     public Goal create(@RequestBody Goal goal) {
-        return repo.save(goal);
+        return service.create(goal);
+    }
+
+    // 更新
+    @PutMapping("/{id}")
+    public Goal update(@PathVariable Long id, @Valid @RequestBody Goal goal) {
+        return service.update(id, goal);
     }
 
     @GetMapping("/{id}")
     public Goal getById(@PathVariable Long id) {
-        return repo.findById(id).orElseThrow();
+        return service.getById(id);
     }
 
-    @PutMapping("/{id}")
-    public Goal update(@PathVariable Long id, @RequestBody Goal updated) {
-        Goal goal = repo.findById(id).orElseThrow();
-
-        goal.setChild(updated.getChild());
-        goal.setTargetAmount(updated.getTargetAmount());
-        goal.setCurrentAmount(updated.getCurrentAmount());
-
-        return repo.save(goal);
-    }
-
+    // 削除
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        repo.deleteById(id);
+        service.delete(id);
     }
-
 }

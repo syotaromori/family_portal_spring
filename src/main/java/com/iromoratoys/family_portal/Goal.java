@@ -2,6 +2,7 @@ package com.iromoratoys.family_portal;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.Min;
 
 @Entity
 @Table(name = "spring_goal")
@@ -14,9 +15,11 @@ public class Goal {
     private String child;
 
     @Column(name = "target_amount")
+    @Min(value = 1, message = "目標金額は1以上にしてください by spring")
     private int targetAmount;
 
     @Column(name = "current_amount")
+    @Min(value = 0, message = "現在金額は0以上にしてください by spring")
     private int currentAmount;
 
     @Column(name = "created_at")

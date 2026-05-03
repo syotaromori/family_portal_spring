@@ -1,4 +1,4 @@
-package com.iromoratoys.family_portal;
+package com.iromoratoys.family_portal.goal;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +23,15 @@ public class GoalController {
 
     // 登録
     @PostMapping
-    public Goal create(@Valid @RequestBody Goal goal) {
-        return service.create(goal);
+    public GoalResponse create(@Valid @RequestBody GoalRequest req) {
+        return new GoalResponse(service.create(req));
     }
 
     // 更新
     @PutMapping("/{id}")
-    public Goal update(@PathVariable Long id, @Valid @RequestBody Goal goal) {
-        return service.update(id, goal);
+    public GoalResponse update(@PathVariable Long id,
+                               @Valid @RequestBody GoalUpdateRequest req) {
+        return new GoalResponse(service.update(id, req));
     }
 
     @GetMapping("/{id}")

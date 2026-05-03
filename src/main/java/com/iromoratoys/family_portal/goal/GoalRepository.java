@@ -1,4 +1,4 @@
-package com.iromoratoys.family_portal;
+package com.iromoratoys.family_portal.goal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,4 +1,4 @@
-package com.iromoratoys.family_portal;
+package com.iromoratoys.family_portal.goal;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

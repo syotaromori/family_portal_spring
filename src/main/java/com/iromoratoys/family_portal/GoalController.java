@@ -23,7 +23,7 @@ public class GoalController {
 
     // 登録
     @PostMapping
-    public Goal create(@RequestBody Goal goal) {
+    public Goal create(@Valid @RequestBody Goal goal) {
         return service.create(goal);
     }
 

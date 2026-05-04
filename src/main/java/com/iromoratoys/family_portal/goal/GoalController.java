@@ -17,8 +17,11 @@ public class GoalController {
 
     // 一覧
     @GetMapping
-    public List<Goal> getAll(@RequestParam String child) {
-        return service.findAll(child);
+    public List<GoalResponse> getAll(@RequestParam String child) {
+        return service.findAll(child)
+                .stream()
+                .map(GoalResponse::new)
+                .toList();
     }
 
     // 登録

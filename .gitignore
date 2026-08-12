@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# アップロードされた画像を除外
+/uploads/
+
+# リクエスト
+requests.http

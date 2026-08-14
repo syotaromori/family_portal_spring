@@ -18,13 +18,16 @@ public class GrowthPhotoService {
 
     private final GrowthPhotoRepository repo;
     private final GrowthRecordRepository recordRepo;
+    private final GrowthPhotoCommentRepository commentRepo;
 
     @Value("${app.upload-dir:uploads/growth-images}")
     private String uploadDir;
 
-    public GrowthPhotoService(GrowthPhotoRepository repo, GrowthRecordRepository recordRepo) {
+    public GrowthPhotoService(GrowthPhotoRepository repo, GrowthRecordRepository recordRepo,
+                               GrowthPhotoCommentRepository commentRepo) {
         this.repo = repo;
         this.recordRepo = recordRepo;
+        this.commentRepo = commentRepo;
     }
 
     public List<GrowthPhoto> findByRecordId(Long recordId) {
@@ -76,6 +79,8 @@ public class GrowthPhotoService {
 
         GrowthPhoto photo = repo.findById(id).orElseThrow();
 
+        commentRepo.deleteAll(commentRepo.findByPhotoId(id));
+
         try {
             Path target = Paths.get(uploadDir).resolve(photo.getImagePath());
             Files.deleteIfExists(target);
@@ -84,5 +89,23 @@ public class GrowthPhotoService {
         }
 
         repo.deleteById(id);
+    }
+
+    /**
+     * 指定した記録に紐づく写真(ファイル+DBレコード)をすべて削除する。
+     * GrowthRecord削除時に呼び出す。
+     */
+    public void deleteAllByRecordId(Long recordId) {
+        List<GrowthPhoto> photos = repo.findByRecordId(recordId);
+        for (GrowthPhoto photo : photos) {
+            commentRepo.deleteAll(commentRepo.findByPhotoId(photo.getId()));
+            try {
+                Path target = Paths.get(uploadDir).resolve(photo.getImagePath());
+                Files.deleteIfExists(target);
+            } catch (IOException e) {
+                // ファイル削除に失敗してもDBレコードの削除は続行する
+            }
+        }
+        repo.deleteAll(photos);
     }
 }

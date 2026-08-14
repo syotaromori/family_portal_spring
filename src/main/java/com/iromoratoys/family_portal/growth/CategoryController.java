@@ -24,6 +24,12 @@ public class CategoryController {
                 .toList();
     }
 
+    // 1件取得
+    @GetMapping("/{id}")
+    public CategoryResponse getById(@PathVariable Long id) {
+        return new CategoryResponse(service.getById(id));
+    }
+
     // 登録(将来のカスタマイズ・追加用)
     @PostMapping
     public CategoryResponse create(@Valid @RequestBody CategoryRequest req) {

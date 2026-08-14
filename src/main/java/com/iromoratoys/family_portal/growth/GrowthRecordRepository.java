@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface GrowthRecordRepository extends JpaRepository<GrowthRecord, Long> {
     List<GrowthRecord> findByChildIdOrderByRecordDateDesc(Long childId);
+    List<GrowthRecord> findByCategoryId(Long categoryId);
 }

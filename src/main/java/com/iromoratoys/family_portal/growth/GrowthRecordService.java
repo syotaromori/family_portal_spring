@@ -10,11 +10,14 @@ public class GrowthRecordService {
     private final GrowthRecordRepository repo;
     private final ChildRepository childRepo;
     private final CategoryRepository categoryRepo;
+    private final GrowthPhotoService growthPhotoService;
 
-    public GrowthRecordService(GrowthRecordRepository repo, ChildRepository childRepo, CategoryRepository categoryRepo) {
+    public GrowthRecordService(GrowthRecordRepository repo, ChildRepository childRepo,
+                                CategoryRepository categoryRepo, GrowthPhotoService growthPhotoService) {
         this.repo = repo;
         this.childRepo = childRepo;
         this.categoryRepo = categoryRepo;
+        this.growthPhotoService = growthPhotoService;
     }
 
     public List<GrowthRecord> findAll(Long childId) {
@@ -59,6 +62,7 @@ public class GrowthRecordService {
     }
 
     public void delete(Long id) {
+        growthPhotoService.deleteAllByRecordId(id);
         repo.deleteById(id);
     }
 

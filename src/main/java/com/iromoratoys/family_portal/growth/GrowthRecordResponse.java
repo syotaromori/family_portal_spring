@@ -8,6 +8,9 @@ public class GrowthRecordResponse {
     private Long id;
     private Long childId;
     private String childName;
+    private Long categoryId;
+    private String categoryName;
+    private String categoryColor;
     private LocalDate recordDate;
     private Double heightCm;
     private Double weightKg;
@@ -18,6 +21,11 @@ public class GrowthRecordResponse {
         this.id = record.getId();
         this.childId = record.getChild().getId();
         this.childName = record.getChild().getName();
+        if (record.getCategory() != null) {
+            this.categoryId = record.getCategory().getId();
+            this.categoryName = record.getCategory().getName();
+            this.categoryColor = record.getCategory().getColorCode();
+        }
         this.recordDate = record.getRecordDate();
         this.heightCm = record.getHeightCm();
         this.weightKg = record.getWeightKg();
@@ -28,6 +36,9 @@ public class GrowthRecordResponse {
     public Long getId() { return id; }
     public Long getChildId() { return childId; }
     public String getChildName() { return childName; }
+    public Long getCategoryId() { return categoryId; }
+    public String getCategoryName() { return categoryName; }
+    public String getCategoryColor() { return categoryColor; }
     public LocalDate getRecordDate() { return recordDate; }
     public Double getHeightCm() { return heightCm; }
     public Double getWeightKg() { return weightKg; }

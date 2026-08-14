@@ -9,6 +9,8 @@ public class GrowthRecordRequest {
     @NotNull(message = "childIdは必須です by spring")
     private Long childId;
 
+    private Long categoryId;
+
     @NotNull(message = "記録日は必須です by spring")
     private LocalDate recordDate;
 
@@ -21,6 +23,7 @@ public class GrowthRecordRequest {
     private String memo;
 
     public Long getChildId() { return childId; }
+    public Long getCategoryId() { return categoryId; }
     public LocalDate getRecordDate() { return recordDate; }
     public Double getHeightCm() { return heightCm; }
     public Double getWeightKg() { return weightKg; }

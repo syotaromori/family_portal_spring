@@ -16,6 +16,10 @@ public class GrowthRecord {
     @JoinColumn(name = "child_id")
     private Child child;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Column(name = "record_date")
     private LocalDate recordDate;
 
@@ -41,6 +45,9 @@ public class GrowthRecord {
 
     public Child getChild() { return child; }
     public void setChild(Child child) { this.child = child; }
+
+    public Category getCategory() { return category; }
+    public void setCategory(Category category) { this.category = category; }
 
     public LocalDate getRecordDate() { return recordDate; }
     public void setRecordDate(LocalDate recordDate) { this.recordDate = recordDate; }

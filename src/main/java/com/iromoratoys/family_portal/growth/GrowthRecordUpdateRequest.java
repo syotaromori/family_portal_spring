@@ -6,6 +6,8 @@ import java.time.LocalDate;
 
 public class GrowthRecordUpdateRequest {
 
+    private Long categoryId;
+
     @NotNull(message = "記録日は必須です by spring")
     private LocalDate recordDate;
 
@@ -18,6 +20,7 @@ public class GrowthRecordUpdateRequest {
     private String memo;
 
     public LocalDate getRecordDate() { return recordDate; }
+    public Long getCategoryId() { return categoryId; }
     public Double getHeightCm() { return heightCm; }
     public Double getWeightKg() { return weightKg; }
     public String getMemo() { return memo; }

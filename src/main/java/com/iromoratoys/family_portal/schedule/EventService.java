@@ -3,14 +3,15 @@ package com.iromoratoys.family_portal.schedule;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EventService {
 
-    // 予定の担当者(固定)。「全員」は家族共有の予定を表す。
+    // 予定の担当者(固定)。複数選択できるので「全員」は個別に5人選ぶ形で表現する。
     public static final List<String> ALLOWED_ASSIGNEES = List.of(
-            "翔太郎", "奈津子", "彩乃", "結菜", "羚弥", "全員"
+            "翔太郎", "奈津子", "彩乃", "結菜", "羚弥"
     );
 
     private final EventRepository repo;
@@ -37,7 +38,7 @@ public class EventService {
         event.setEndDateTime(req.getEndDateTime());
         event.setAllDay(req.isAllDay());
         event.setLocation(req.getLocation());
-        event.setAssignee(req.getAssignee());
+        event.setAssignees(new ArrayList<>(req.getAssignees()));
         event.setMemo(req.getMemo());
 
         return repo.save(event);
@@ -54,7 +55,7 @@ public class EventService {
         event.setEndDateTime(req.getEndDateTime());
         event.setAllDay(req.isAllDay());
         event.setLocation(req.getLocation());
-        event.setAssignee(req.getAssignee());
+        event.setAssignees(new ArrayList<>(req.getAssignees()));
         event.setMemo(req.getMemo());
 
         return repo.save(event);
@@ -68,8 +69,10 @@ public class EventService {
         if (req.getEndDateTime().isBefore(req.getStartDateTime())) {
             throw new IllegalArgumentException("終了日時は開始日時より後にしてください");
         }
-        if (!ALLOWED_ASSIGNEES.contains(req.getAssignee())) {
-            throw new IllegalArgumentException("担当者はメンバーの中から選択してください");
+        for (String assignee : req.getAssignees()) {
+            if (!ALLOWED_ASSIGNEES.contains(assignee)) {
+                throw new IllegalArgumentException("担当者はメンバーの中から選択してください");
+            }
         }
     }
 }

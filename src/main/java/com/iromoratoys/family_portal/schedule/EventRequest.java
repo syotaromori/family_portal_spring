@@ -1,8 +1,10 @@
 package com.iromoratoys.family_portal.schedule;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class EventRequest {
 
@@ -19,8 +21,8 @@ public class EventRequest {
 
     private String location;
 
-    @NotBlank(message = "担当者は必須です by spring")
-    private String assignee;
+    @NotEmpty(message = "担当者を1人以上選択してください by spring")
+    private List<String> assignees;
 
     private String memo;
 
@@ -29,6 +31,6 @@ public class EventRequest {
     public LocalDateTime getEndDateTime() { return endDateTime; }
     public boolean isAllDay() { return allDay; }
     public String getLocation() { return location; }
-    public String getAssignee() { return assignee; }
+    public List<String> getAssignees() { return assignees; }
     public String getMemo() { return memo; }
 }

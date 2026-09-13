@@ -2,6 +2,8 @@ package com.iromoratoys.family_portal.schedule;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "spring_event")
@@ -26,8 +28,10 @@ public class Event {
     @Column(name = "location")
     private String location;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "spring_event_assignee", joinColumns = @JoinColumn(name = "event_id"))
     @Column(name = "assignee")
-    private String assignee;
+    private List<String> assignees = new ArrayList<>();
 
     @Column(name = "memo", length = 1000)
     private String memo;
@@ -58,8 +62,8 @@ public class Event {
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
 
-    public String getAssignee() { return assignee; }
-    public void setAssignee(String assignee) { this.assignee = assignee; }
+    public List<String> getAssignees() { return assignees; }
+    public void setAssignees(List<String> assignees) { this.assignees = assignees; }
 
     public String getMemo() { return memo; }
     public void setMemo(String memo) { this.memo = memo; }

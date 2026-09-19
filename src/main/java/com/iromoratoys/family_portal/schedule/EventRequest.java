@@ -26,6 +26,9 @@ public class EventRequest {
 
     private String memo;
 
+    // 前日リマインドを送るか(未指定ならfalse)
+    private boolean reminderEnabled;
+
     public String getTitle() { return title; }
     public LocalDateTime getStartDateTime() { return startDateTime; }
     public LocalDateTime getEndDateTime() { return endDateTime; }
@@ -33,4 +36,5 @@ public class EventRequest {
     public String getLocation() { return location; }
     public List<String> getAssignees() { return assignees; }
     public String getMemo() { return memo; }
+    public boolean isReminderEnabled() { return reminderEnabled; }
 }

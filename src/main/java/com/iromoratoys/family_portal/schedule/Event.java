@@ -36,6 +36,14 @@ public class Event {
     @Column(name = "memo", length = 1000)
     private String memo;
 
+    // 前日リマインドを送るか / 送信済みか
+    // 列追加前から存在する行はNULLになるため、primitiveではなくBooleanで受けてgetterでfalse扱いにする
+    @Column(name = "reminder_enabled")
+    private Boolean reminderEnabled = false;
+
+    @Column(name = "reminder_sent")
+    private Boolean reminderSent = false;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -67,6 +75,12 @@ public class Event {
 
     public String getMemo() { return memo; }
     public void setMemo(String memo) { this.memo = memo; }
+
+    public boolean isReminderEnabled() { return Boolean.TRUE.equals(reminderEnabled); }
+    public void setReminderEnabled(boolean reminderEnabled) { this.reminderEnabled = reminderEnabled; }
+
+    public boolean isReminderSent() { return Boolean.TRUE.equals(reminderSent); }
+    public void setReminderSent(boolean reminderSent) { this.reminderSent = reminderSent; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 }

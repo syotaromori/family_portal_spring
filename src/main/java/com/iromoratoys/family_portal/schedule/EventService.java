@@ -15,9 +15,13 @@ public class EventService {
     );
 
     private final EventRepository repo;
+    private final EventMailService mail;
+    private final ReminderPolicy reminderPolicy;
 
-    public EventService(EventRepository repo) {
+    public EventService(EventRepository repo, EventMailService mail, ReminderPolicy reminderPolicy) {
         this.repo = repo;
+        this.mail = mail;
+        this.reminderPolicy = reminderPolicy;
     }
 
     public List<Event> findInRange(LocalDateTime rangeStart, LocalDateTime rangeEnd) {
@@ -40,8 +44,11 @@ public class EventService {
         event.setLocation(req.getLocation());
         event.setAssignees(new ArrayList<>(req.getAssignees()));
         event.setMemo(req.getMemo());
+        applyReminder(event, req);
 
-        return repo.save(event);
+        Event saved = repo.save(event);
+        mail.notifyCreated(saved);
+        return saved;
     }
 
     public Event update(Long id, EventRequest req) {
@@ -57,12 +64,19 @@ public class EventService {
         event.setLocation(req.getLocation());
         event.setAssignees(new ArrayList<>(req.getAssignees()));
         event.setMemo(req.getMemo());
+        applyReminder(event, req);
 
         return repo.save(event);
     }
 
     public void delete(Long id) {
         repo.deleteById(id);
+    }
+
+    // 日時を変えた予定でも再びリマインドされるよう、登録・更新のたびに送信済みフラグを決め直す
+    private void applyReminder(Event event, EventRequest req) {
+        event.setReminderEnabled(req.isReminderEnabled());
+        event.setReminderSent(reminderPolicy.isAlreadyPast(req.getStartDateTime(), LocalDateTime.now()));
     }
 
     private void validate(EventRequest req) {

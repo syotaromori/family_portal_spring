@@ -13,6 +13,7 @@ public class EventResponse {
     private String location;
     private List<String> assignees;
     private String memo;
+    private boolean reminderEnabled;
     private LocalDateTime createdAt;
 
     public EventResponse(Event event) {
@@ -24,6 +25,7 @@ public class EventResponse {
         this.location = event.getLocation();
         this.assignees = event.getAssignees();
         this.memo = event.getMemo();
+        this.reminderEnabled = event.isReminderEnabled();
         this.createdAt = event.getCreatedAt();
     }
 
@@ -35,5 +37,6 @@ public class EventResponse {
     public String getLocation() { return location; }
     public List<String> getAssignees() { return assignees; }
     public String getMemo() { return memo; }
+    public boolean isReminderEnabled() { return reminderEnabled; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 }

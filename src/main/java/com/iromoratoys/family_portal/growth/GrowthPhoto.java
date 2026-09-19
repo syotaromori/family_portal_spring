@@ -18,6 +18,10 @@ public class GrowthPhoto {
     @Column(name = "image_path")
     private String imagePath;
 
+    // "IMAGE" or "VIDEO"。動画対応前に登録された行はNULLのため、画像として扱う
+    @Column(name = "media_type", length = 10)
+    private String mediaType;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -34,6 +38,9 @@ public class GrowthPhoto {
 
     public String getImagePath() { return imagePath; }
     public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+
+    public String getMediaType() { return mediaType; }
+    public void setMediaType(String mediaType) { this.mediaType = mediaType; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 }
